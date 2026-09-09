@@ -3,354 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مهرجانات عصام صاصا - Sasa Music</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>StreamVerse - منصة الفيديوهات</title>
     <style>
         :root {
-            --bg-color: #0b0b0b;
-            --header-bg: #141414;
-            --card-bg: #181818;
-            --card-hover: #222222;
-            --text-main: #ffffff;
-            --text-secondary: #a0a0a0;
-            --accent: #1db954;
-            --border: #282828;
+            --bg-color: #f9f9f9;
+            --text-color: #111;
+            --card-bg: #fff;
+            --nav-bg: #fff;
+            --border-color: #ddd;
+            --primary: #cc0000;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
+        [data-theme="dark"] {
+            --bg-color: #0f0f0f;
+            --text-color: #f1f1f1;
+            --card-bg: #212121;
+            --nav-bg: #212121;
+            --border-color: #383838;
+            --primary: #ff4e45;
         }
 
         body {
+            font-family: Arial, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            color: var(--text-color);
+            margin: 0;
+            padding-top: 70px;
+            transition: background 0.3s, color 0.3s;
         }
 
-        /* الهيدر */
-        header {
-            background-color: var(--header-bg);
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--text-main);
-        }
-
-        .logo i {
-            color: var(--accent);
-            font-size: 30px;
-        }
-
-        /* المحتوى الرئيسي */
-        .main-container {
-            flex: 1;
-            padding: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .section-title {
-            font-size: 26px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            border-right: 4px solid var(--accent);
-            padding-right: 12px;
-        }
-
-        /* شبكة الأغاني */
-        .tracks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 25px;
-        }
-
-        .track-card {
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: 0.3s ease;
-            cursor: pointer;
-            border: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .track-card:hover {
-            background-color: var(--card-hover);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            border-color: #444;
-        }
-
-        .card-img-container {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16/9;
-            overflow: hidden;
-        }
-
-        .card-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.3s;
-        }
-
-        .track-card:hover .card-img-container img {
-            transform: scale(1.05);
-        }
-
-        .play-badge {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            background-color: var(--accent);
-            color: #000;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-        }
-
-        .track-card:hover .play-badge {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card-info {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .card-info h3 {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .card-info p {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* نافذة المشغل المنبثقة (Modal) */
-        .player-modal {
+        /* شريط التنقل العلوي */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            display: none;
-            justify-content: center;
+            right: 0;
+            height: 60px;
+            background-color: var(--nav-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
             z-index: 1000;
-            padding: 20px;
         }
 
-        .player-content {
-            background-color: #181818;
-            width: 100%;
-            max-width: 800px;
-            border-radius: 15px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            position: relative;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary);
         }
 
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            left: 20px;
-            background: none;
+        .nav-controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        button, .btn {
+            background: var(--primary);
+            color: white;
             border: none;
-            color: #fff;
-            font-size: 24px;
+            padding: 8px 15px;
+            border-radius: 4px;
             cursor: pointer;
-            z-index: 10;
+            font-weight: bold;
         }
 
-        .video-container {
-            position: relative;
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        /* شبكة عرض الفيديوهات */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .video-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-thumbnail {
             width: 100%;
-            aspect-ratio: 16/9;
-        }
-
-        .video-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .player-details {
-            padding: 20px;
-        }
-
-        .player-details h2 {
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
-
-        .player-details p {
-            color: var(--text-secondary);
+            height: 160px;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
             font-size: 14px;
         }
 
-        /* الفوتر */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: var(--header-bg);
-            color: var(--text-secondary);
-            font-size: 13px;
-            border-top: 1px solid var(--border);
+        .video-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .video-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 5px;
             margin-top: auto;
+        }
+
+        .video-actions button {
+            font-size: 12px;
+            padding: 5px 8px;
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+
+        /* نافذة تسجيل الدخول الوهمية */
+        #auth-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .modal-content input {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-color);
+            color: var(--text-color);
+            border-radius: 4px;
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
 
-    <header>
-        <div class="logo">
-            <i class="fa-solid fa-compact-disc"></i> عصام صاصا | Sasa Vibes
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="logo">StreamVerse 🎬</div>
+        <div class="nav-controls">
+            <button class="theme-toggle" onclick="toggleTheme()">الوضع الليلي / النهاري</button>
+            <button id="auth-btn" onclick="openLogin()">تسجيل الدخول</button>
         </div>
-    </header>
+    </nav>
 
-    <div class="main-container">
-        <h2 class="section-title">أقوى مهرجانات عصام صاصا</h2>
-        <div class="tracks-grid" id="gridContainer">
-            <!-- سيتم توليد العناصر بالكود تلقائياً -->
+    <!-- المحتوى الرئيسي (الفيديوهات) -->
+    <div class="container">
+        <h2>أحدث الفيديوهات</h2>
+        <div class="grid">
+            <!-- فيديو 1 -->
+            <div class="video-card">
+                <div class="video-thumbnail">معاينة الفيديو 1</div>
+                <div class="video-info">
+                    <h3 class="video-title">شرح برمجة وتصميم واجهة شبيهة بيوتيوب</h3>
+                    <div class="video-actions">
+                        <button onclick="checkAuth('download')">تنزيل</button>
+                        <button onclick="checkAuth('favorite')">المفضلة</button>
+                        <button onclick="shareVideo()">مشاركة</button>
+                    </div>
+                </div>
+            </div>
+            <!-- فيديو 2 -->
+            <div class="video-card">
+                <div class="video-thumbnail">معاينة الفيديو 2</div>
+                <div class="video-info">
+                    <h3 class="video-title">أفضل ممارسات تطوير الويب الحديثة 2026</h3>
+                    <div class="video-actions">
+                        <button onclick="checkAuth('download')">تنزيل</button>
+                        <button onclick="checkAuth('favorite')">المفضلة</button>
+                        <button onclick="shareVideo()">مشاركة</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- مشغل الفيديو المنبثق -->
-    <div class="player-modal" id="playerModal">
-        <div class="player-content">
-            <button class="close-btn" onclick="closePlayer()"><i class="fa-solid fa-xmark"></i></button>
-            <div class="video-container">
-                <iframe id="youtubePlayer" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            <div class="player-details">
-                <h2 id="modalTitle">عنوان الأغنية</h2>
-                <p id="modalArtist">عصام صاصا</p>
-            </div>
+    <!-- نافذة تسجيل الدخول -->
+    <div id="auth-modal">
+        <div class="modal-content">
+            <h3>تسجيل الدخول إلزامي</h3>
+            <input type="email" placeholder="البريد الإلكتروني">
+            <input type="password" placeholder="كلمة المرور">
+            <button onclick="loginUser()">دخول</button>
+            <button style="background:transparent; color:var(--text-color)" onclick="closeLogin()">إلغاء</button>
         </div>
     </div>
-
-    <footer>
-        تم تطوير الموقع خصيصاً ليكِ - استمتعي بأجمل المهرجانات الأصلية ❤️
-    </footer>
 
     <script>
-        // قائمة الأغاني والمهرجانات مع معرّفات يوتيوب الحقيقية والأصلية
-        const songs = [
-            {
-                title: "مهرجان مفيش صاحب بيصان",
-                artist: "عصام صاصا - كيمو الديب",
-                id: "3v3c5N2b7bE", // مثال لفيديو حقيقي أو مرجعي
-                img: "https://img.youtube.com/vi/3v3c5N2b7bE/hqdefault.jpg"
-            },
-            {
-                title: "مهرجان اندال اندال",
-                artist: "عصام صاصا",
-                id: "M7lc1UVf-VE",
-                img: "https://img.youtube.com/vi/M7lc1UVf-VE/hqdefault.jpg"
-            },
-            {
-                title: "مهرجان صاحبي الدنياه خاينا",
-                artist: "عصام صاصا - كيمو الديب",
-                id: "kJQP7kiw5Fk",
-                img: "https://img.youtube.com/vi/kJQP7kiw5Fk/hqdefault.jpg"
-            },
-            {
-                title: "مهرجان وسط دموع وجراح",
-                artist: "عصام صاصا",
-                id: "5qap5aO4i9A",
-                img: "https://img.youtube.com/vi/5qap5aO4i9A/hqdefault.jpg"
-            }
-        ];
+        let isLoggedIn = false;
 
-        const gridContainer = document.getElementById('gridContainer');
-        const playerModal = document.getElementById('playerModal');
-        const youtubePlayer = document.getElementById('youtubePlayer');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalArtist = document.getElementById('modalArtist');
-
-        // بناء الواجهة وعرض الكروت
-        function renderSongs() {
-            gridContainer.innerHTML = '';
-            songs.forEach((song, index) => {
-                gridContainer.innerHTML += `
-                    <div class="track-card" onclick="openPlayer('${song.id}', '${song.title}', '${song.artist}')">
-                        <div class="card-img-container">
-                            <img src="${song.img}" alt="${song.title}" onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80'">
-                            <div class="play-badge">
-                                <i class="fa-solid fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="card-info">
-                            <h3>${song.title}</h3>
-                            <p>${song.artist}</p>
-                        </div>
-                    </div>
-                `;
-            });
+        // تبديل الوضع الليلي
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute("data-theme");
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+            body.setAttribute("data-theme", newTheme);
+            localStorage.setItem("theme", newTheme);
         }
 
-        function openPlayer(videoId, title, artist) {
-            modalTitle.innerText = title;
-            modalArtist.innerText = artist;
-            youtubePlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-            playerModal.style.display = 'flex';
+        // استرجاع الثيم المحفوظ
+        window.onload = () => {
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            document.body.setAttribute("data-theme", savedTheme);
         }
 
-        function closePlayer() {
-            youtubePlayer.src = ''; // لإيقاف الفيديو عند غلق النافذة
-            playerModal.style.display = 'none';
-        }
-
-        // إغلاق النافذة عند الضغط خارجها
-        window.onclick = function(event) {
-            if (event.target == playerModal) {
-                closePlayer();
+        // التحقق من تسجيل الدخول قبل التفاعل
+        function checkAuth(actionType) {
+            if (!isLoggedIn) {
+                alert("يجب عليك تسجيل الدخول أولاً لاستخدام هذه الميزة!");
+                openLogin();
+            } else {
+                if(actionType === 'download') alert("جاري بدء التنزيل...");
+                if(actionType === 'favorite') alert("تمت الإضافة إلى قائمة المفضلة بنجاح!");
             }
         }
 
-        renderSongs();
+        function openLogin() {
+            document.getElementById("auth-modal").style.display = "flex";
+        }
+
+        function closeLogin() {
+            document.getElementById("auth-modal").style.display = "none";
+        }
+
+        function loginUser() {
+            isLoggedIn = true;
+            document.getElementById("auth-btn").innerText = "حسابي (مفعل)";
+            closeLogin();
+            alert("تم تسجيل الدخول بنجاح!");
+        }
+
+        function shareVideo() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("تم نسخ رابط الفيديو إلى الحافظة!");
+        }
     </script>
 </body>
 </html>
