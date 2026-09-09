@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamVerse - منصة الفيديوهات</title>
+    <title>StreamVerse - منصة الفيديوهات الشاملة</title>
     <style>
         :root {
             --bg-color: #f9f9f9;
             --text-color: #111;
             --card-bg: #fff;
             --nav-bg: #fff;
-            --border-color: #ddd;
+            --border-color: #e5e5e5;
             --primary: #cc0000;
+            --sidebar-width: 240px;
         }
 
         [data-theme="dark"] {
@@ -23,16 +24,20 @@
             --primary: #ff4e45;
         }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding-top: 70px;
             transition: background 0.3s, color 0.3s;
         }
 
-        /* شريط التنقل العلوي */
+        /* الشريط العلوي */
         nav {
             position: fixed;
             top: 0;
@@ -49,14 +54,17 @@
         }
 
         .logo {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-controls {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
         }
 
@@ -64,32 +72,70 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 8px 15px;
+            padding: 8px 14px;
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 14px;
         }
 
         button:hover {
             opacity: 0.9;
         }
 
-        .theme-toggle {
+        .theme-toggle, .secondary-btn {
             background: transparent;
             color: var(--text-color);
             border: 1px solid var(--border-color);
         }
 
-        /* شبكة عرض الفيديوهات */
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 15px;
+        /* التخطيط العام */
+        .main-layout {
+            display: flex;
+            margin-top: 60px;
         }
 
+        /* القائمة الجانبية */
+        aside {
+            width: var(--sidebar-width);
+            height: calc(100vh - 60px);
+            position: fixed;
+            background-color: var(--nav-bg);
+            border-left: 1px solid var(--border-color);
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar-item {
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .sidebar-item:hover {
+            background-color: var(--border-color);
+        }
+
+        /* محتوى الصفحة الرئيسي */
+        .content-area {
+            margin-right: var(--sidebar-width);
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+
+        /* شبكة الفيديوهات */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 20px;
         }
 
@@ -102,46 +148,48 @@
             flex-direction: column;
         }
 
-        .video-thumbnail {
+        .video-player-container {
             width: 100%;
-            height: 160px;
-            background-color: #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 14px;
+            height: 150px;
+            background: #000;
+        }
+
+        .video-player-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .video-info {
             padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             flex-grow: 1;
         }
 
         .video-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            margin: 0;
+            line-height: 1.4;
         }
 
         .video-actions {
             display: flex;
             gap: 5px;
             margin-top: auto;
+            flex-wrap: wrap;
         }
 
         .video-actions button {
-            font-size: 12px;
-            padding: 5px 8px;
+            font-size: 11px;
+            padding: 4px 8px;
             background: var(--border-color);
             color: var(--text-color);
         }
 
-        /* نافذة تسجيل الدخول الوهمية */
-        #auth-modal {
+        /* النوافذ المنبثقة (Modals) */
+        .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -152,79 +200,143 @@
         }
         .modal-content {
             background: var(--card-bg);
-            padding: 30px;
+            padding: 25px;
             border-radius: 8px;
-            width: 300px;
+            width: 350px;
             display: flex;
             flex-direction: column;
             gap: 15px;
+            border: 1px solid var(--border-color);
         }
-        .modal-content input {
+        .modal-content input, .modal-content textarea {
             padding: 10px;
             border: 1px solid var(--border-color);
             background: var(--bg-color);
             color: var(--text-color);
             border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* استجابة الشاشات الصغيرة */
+        @media (max-width: 768px) {
+            aside { display: none; }
+            .content-area { margin-right: 0; }
         }
     </style>
 </head>
 <body data-theme="dark">
 
-    <!-- شريط التنقل -->
+    <!-- شريط التنقل العلوي -->
     <nav>
-        <div class="logo">StreamVerse 🎬</div>
+        <div class="logo">🎬 StreamVerse</div>
         <div class="nav-controls">
-            <button class="theme-toggle" onclick="toggleTheme()">الوضع الليلي / النهاري</button>
-            <button id="auth-btn" onclick="openLogin()">تسجيل الدخول</button>
+            <button class="secondary-btn" onclick="openUploadModal()">➕ نشر فيديو</button>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓 الوضع الليلي</button>
+            <button id="auth-btn" onclick="openAuthModal()">تسجيل الدخول</button>
         </div>
     </nav>
 
-    <!-- المحتوى الرئيسي (الفيديوهات) -->
-    <div class="container">
-        <h2>أحدث الفيديوهات</h2>
-        <div class="grid">
-            <!-- فيديو 1 -->
-            <div class="video-card">
-                <div class="video-thumbnail">معاينة الفيديو 1</div>
-                <div class="video-info">
-                    <h3 class="video-title">شرح برمجة وتصميم واجهة شبيهة بيوتيوب</h3>
-                    <div class="video-actions">
-                        <button onclick="checkAuth('download')">تنزيل</button>
-                        <button onclick="checkAuth('favorite')">المفضلة</button>
-                        <button onclick="shareVideo()">مشاركة</button>
-                    </div>
-                </div>
-            </div>
-            <!-- فيديو 2 -->
-            <div class="video-card">
-                <div class="video-thumbnail">معاينة الفيديو 2</div>
-                <div class="video-info">
-                    <h3 class="video-title">أفضل ممارسات تطوير الويب الحديثة 2026</h3>
-                    <div class="video-actions">
-                        <button onclick="checkAuth('download')">تنزيل</button>
-                        <button onclick="checkAuth('favorite')">المفضلة</button>
-                        <button onclick="shareVideo()">مشاركة</button>
-                    </div>
-                </div>
+    <div class="main-layout">
+        <!-- القائمة الجانبية -->
+        <aside>
+            <div class="sidebar-item" onclick="filterVideos('all')">🏠 الرئيسية</div>
+            <div class="sidebar-item" onclick="filterVideos('tech')">💻 التقنية والبرمجة</div>
+            <div class="sidebar-item" onclick="filterVideos('nature')">🌿 الطبيعة والسفر</div>
+            <div class="sidebar-item" onclick="filterVideos('cooking')">🍳 الطبخ والوصفات</div>
+            <div class="sidebar-item" onclick="filterVideos('sports')">⚽ الرياضة واللياقة</div>
+        </aside>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="content-area">
+            <h2>أحدث الفيديوهات المنشورة</h2>
+            <div class="grid" id="video-grid">
+                <!-- يتم تعبئة الفيديوهات برمجياً -->
             </div>
         </div>
     </div>
 
     <!-- نافذة تسجيل الدخول -->
-    <div id="auth-modal">
+    <div id="auth-modal" class="modal">
         <div class="modal-content">
-            <h3>تسجيل الدخول إلزامي</h3>
-            <input type="email" placeholder="البريد الإلكتروني">
-            <input type="password" placeholder="كلمة المرور">
+            <h3>تسجيل الدخول للمنصة</h3>
+            <input type="email" id="login-email" placeholder="البريد الإلكتروني">
+            <input type="password" id="login-pass" placeholder="كلمة المرور">
             <button onclick="loginUser()">دخول</button>
-            <button style="background:transparent; color:var(--text-color)" onclick="closeLogin()">إلغاء</button>
+            <button class="secondary-btn" onclick="closeAuthModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- نافذة نشر فيديو جديد -->
+    <div id="upload-modal" class="modal">
+        <div class="modal-content">
+            <h3>نشر فيديو جديد</h3>
+            <input type="text" id="up-title" placeholder="عنوان الفيديو">
+            <input type="text" id="up-url" placeholder="رابط يوتيوب (مثال: https://www.youtube.com/embed/...)">
+            <select id="up-category" style="padding:10px; background:var(--bg-color); color:var(--text-color); border:1px solid var(--border-color); border-radius:4px;">
+                <option value="tech">التقنية والبرمجة</option>
+                <option value="nature">الطبيعة والسفر</option>
+                <option value="cooking">الطبخ والوصفات</option>
+                <option value="sports">الرياضة واللياقة</option>
+            </select>
+            <button onclick="publishVideo()">نشر الفيديو</button>
+            <button class="secondary-btn" onclick="closeUploadModal()">إلغاء</button>
         </div>
     </div>
 
     <script>
+        // حالة تسجيل الدخول للمستخدم
         let isLoggedIn = false;
 
-        // تبديل الوضع الليلي
+        // قائمة أكثر من 10 فيديوهات حقيقية ومتنوعة (باستخدام روابط تضمين يوتيوب Embed)
+        let videos = [
+            { id: 1, title: "مقدمة شاملة لتطوير الويب الحديث 2026", url: "https://www.youtube.com/embed/zJSY8tbf_ys", category: "tech" },
+            { id: 2, title: "أجمل المناظر الطبيعية الساحرة حول العالم", url: "https://www.youtube.com/embed/LXb3EKWsInQ", category: "nature" },
+            { id: 3, title: "أسهل طريقة لعمل وجبة سريعة وصحية", url: "https://www.youtube.com/embed/3JZ_D3ELwOQ", category: "cooking" },
+            { id: 4, title: "تمرين رياضي كارديو لمدة 10 دقائق لتنشيط الجسم", url: "https://www.youtube.com/embed/UItWltVZZmE", category: "sports" },
+            { id: 5, title: "أسرار لغة البرمجة جافاسكريبت المتقدمة", url: "https://www.youtube.com/embed/W6NZfCO5SIk", category: "tech" },
+            { id: 6, title: "رحلة استكشافية في أعماق الطبيعة البرية", url: "https://www.youtube.com/embed/kJQP7kiw5Fk", category: "nature" },
+            { id: 7, title: "طريقة تحضير أشهر الأطباق الشرقية المنزلية", url: "https://www.youtube.com/embed/2Vv-BfVoq4g", category: "cooking" },
+            { id: 8, title: "تمارين تقوية العضلات للمبتدئين في المنزل", url: "https://www.youtube.com/embed/1k8ib097WJc", category: "sports" },
+            { id: 9, title: "كيف تبدأ مسيرتك في الذكاء الاصطناعي وتطوير الموديلات", url: "https://www.youtube.com/embed/aircAruvnKk", category: "tech" },
+            { id: 10, title: "جولة سياحية مذهلة في أجمل مدن العالم", url: "https://www.youtube.com/embed/YqeW9_5kURI", category: "nature" },
+            { id: 11, title: "أفضل وصفات الحلويات السريعة بدون فرن", url: "https://www.youtube.com/embed/5qap5aO4i9A", category: "cooking" }
+        ];
+
+        // عرض الفيديوهات في الشبكة
+        function renderVideos(filteredCategory = 'all') {
+            const grid = document.getElementById("video-grid");
+            grid.innerHTML = "";
+
+            const filtered = filteredCategory === 'all' 
+                ? videos 
+                : videos.filter(v => v.category === filteredCategory);
+
+            filtered.forEach(video => {
+                const card = document.createElement("div");
+                card.className = "video-card";
+                card.innerHTML = `
+                    <div class="video-player-container">
+                        <iframe src="${video.url}" allowfullscreen></iframe>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">${video.title}</h3>
+                        <div class="video-actions">
+                            <button onclick="checkAuth('download')">📥 تنزيل</button>
+                            <button onclick="checkAuth('favorite')">⭐ مفضلة</button>
+                            <button onclick="shareVideo('${video.title}')">🔗 مشاركة</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // تصفية الفيديوهات حسب القسم
+        function filterVideos(category) {
+            renderVideos(category);
+        }
+
+        // تبديل الوضع الليلي والنهاري
         function toggleTheme() {
             const body = document.body;
             const currentTheme = body.getAttribute("data-theme");
@@ -233,41 +345,81 @@
             localStorage.setItem("theme", newTheme);
         }
 
-        // استرجاع الثيم المحفوظ
+        // تحميل الثيم المحفوظ عند فتح الصفحة
         window.onload = () => {
             const savedTheme = localStorage.getItem("theme") || "dark";
             document.body.setAttribute("data-theme", savedTheme);
+            renderVideos();
         }
 
-        // التحقق من تسجيل الدخول قبل التفاعل
-        function checkAuth(actionType) {
+        // الحماية والتحقق من تسجيل الدخول لتنفيذ العمليات
+        function checkAuth(action) {
             if (!isLoggedIn) {
-                alert("يجب عليك تسجيل الدخول أولاً لاستخدام هذه الميزة!");
-                openLogin();
+                alert("يجب عليك تسجيل الدخول أولاً لتتمكن من استخدام هذه الميزة!");
+                openAuthModal();
             } else {
-                if(actionType === 'download') alert("جاري بدء التنزيل...");
-                if(actionType === 'favorite') alert("تمت الإضافة إلى قائمة المفضلة بنجاح!");
+                if(action === 'download') alert("جاري تحميل الفيديو بجودة عالية...");
+                if(action === 'favorite') alert("تمت إضافة الفيديو إلى قائمة المفضلة بنجاح!");
             }
         }
 
-        function openLogin() {
-            document.getElementById("auth-modal").style.display = "flex";
-        }
-
-        function closeLogin() {
-            document.getElementById("auth-modal").style.display = "none";
-        }
-
+        // النوافذ المنبثقة
+        function openAuthModal() { document.getElementById("auth-modal").style.display = "flex"; }
+        function closeAuthModal() { document.getElementById("auth-modal").style.display = "none"; }
         function loginUser() {
             isLoggedIn = true;
-            document.getElementById("auth-btn").innerText = "حسابي (مفعل)";
-            closeLogin();
-            alert("تم تسجيل الدخول بنجاح!");
+            document.getElementById("auth-btn").innerText = "حسابي (نشط)";
+            closeAuthModal();
+            alert("تم تسجيل الدخول بنجاح! يمكنك الآن النشر والتفاعل.");
         }
 
-        function shareVideo() {
+        function openUploadModal() {
+            if (!isLoggedIn) {
+                alert("يجب تسجيل الدخول أولاً لتتمكن من نشر الفيديوهات!");
+                openAuthModal();
+                return;
+            }
+            document.getElementById("upload-modal").style.display = "flex";
+        }
+        function closeUploadModal() { document.getElementById("upload-modal").style.display = "none"; }
+
+        // نشر فيديو جديد بواسطة المستخدم
+        function publishVideo() {
+            const title = document.getElementById("up-title").value;
+            let url = document.getElementById("up-url").value;
+            const category = document.getElementById("up-category").value;
+
+            if(!title || !url) {
+                alert("الرجاء إدخال عنوان الفيديو والرابط بشكل صحيح!");
+                return;
+            }
+
+            // تحويل رابط يوتيوب العادي إلى رابط Embed إذا لزم الأمر
+            if(url.includes("watch?v=")) {
+                url = url.replace("watch?v=", "embed/");
+            }
+
+            const newVideo = {
+                id: videos.length + 1,
+                title: title,
+                url: url,
+                category: category
+            };
+
+            videos.unshift(newVideo); // إضافة الفيديو الجديد في أول القائمة
+            renderVideos();
+            closeUploadModal();
+            alert("تم نشر الفيديو بنجاح وظهر في المنصة!");
+            
+            // تفريغ الحقول
+            document.getElementById("up-title").value = "";
+            document.getElementById("up-url").value = "";
+        }
+
+        // مشاركة الفيديو
+        function shareVideo(title) {
             navigator.clipboard.writeText(window.location.href);
-            alert("تم نسخ رابط الفيديو إلى الحافظة!");
+            alert(`تم نسخ رابط الفيديو (${title}) إلى الحافظة بنجاح!`);
         }
     </script>
 </body>
