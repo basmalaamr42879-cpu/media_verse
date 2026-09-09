@@ -4,16 +4,216 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عصام صاصا - Sasa Vibes</title>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            padding-bottom: 110px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: #181818;
+            border-bottom: 1px solid #282828;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .logo span {
+            color: #f39c12;
+        }
+
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: #f39c12;
+        }
+
+        .hero {
+            height: 50vh;
+            background: linear-gradient(rgba(18,18,18,0.9), rgba(18,18,18,1)), url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            border-bottom: 1px solid #222;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            color: #b0b0b0;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+
+        .btn-play {
+            background-color: #f39c12;
+            color: #121212;
+            padding: 12px 28px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-play:hover {
+            background-color: #e67e22;
+        }
+
+        .tracks-section {
+            padding: 40px 8%;
+        }
+
+        .tracks-section h2 {
+            font-size: 24px;
+            margin-bottom: 25px;
+            border-right: 4px solid #f39c12;
+            padding-right: 12px;
+            color: #fff;
+        }
+
+        .tracks-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .track-card {
+            background-color: #1a1a1a;
+            border: 1px solid #262626;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+
+        .track-card:hover {
+            background-color: #222;
+            border-color: #f39c12;
+            transform: translateY(-2px);
+        }
+
+        .track-img {
+            width: 45px;
+            height: 45px;
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f39c12;
+            font-size: 18px;
+            margin-left: 15px;
+        }
+
+        .track-info {
+            flex-grow: 1;
+        }
+
+        .track-info h3 {
+            font-size: 15px;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        .track-info p {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .play-btn {
+            background: none;
+            border: none;
+            color: #f39c12;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .audio-player-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #161616;
+            border-top: 1px solid #282828;
+            padding: 15px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .current-track-info span {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+        }
+
+        .current-track-info small {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .player-controls button {
+            background-color: #f39c12;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            color: #121212;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-controls button:hover {
+            background-color: #e67e22;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- الهيدر -->
     <header>
         <div class="logo">
-            <i class="fa-solid id-card fa-headphones"></i> Sasa <span>Vibes</span>
+            <i class="fa-solid fa-headphones"></i> Sasa <span>Vibes</span>
         </div>
         <nav>
             <a href="#" class="active">الرئيسية</a>
@@ -21,7 +221,6 @@
         </nav>
     </header>
 
-    <!-- قسم الواجهة -->
     <section class="hero">
         <div class="hero-content">
             <h1>عصام صاصا</h1>
@@ -30,12 +229,9 @@
         </div>
     </section>
 
-    <!-- قسم المهرجانات الشاملة -->
     <section class="tracks-section" id="tracks">
         <h2>مكتبة مهرجانات عصام صاصا</h2>
         <div class="tracks-container">
-            
-            <!-- تراك 1 -->
             <div class="track-card" onclick="playTrack('مهرجان مبحبش كبرتو', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
                 <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
@@ -45,7 +241,6 @@
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
 
-            <!-- تراك 2 -->
             <div class="track-card" onclick="playTrack('مهرجان انا عand الكل', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">
                 <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
@@ -55,7 +250,6 @@
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
 
-            <!-- تراك 3 -->
             <div class="track-card" onclick="playTrack('مهرجان كل اللي باع', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')">
                 <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
@@ -65,7 +259,6 @@
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
 
-            <!-- تراك 4 -->
             <div class="track-card" onclick="playTrack('مهرجان سابوني لوحدي', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3')">
                 <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
@@ -75,7 +268,6 @@
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
 
-            <!-- تراك 5 -->
             <div class="track-card" onclick="playTrack('مهرجان قلبي عايز صرمة', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3')">
                 <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
@@ -85,7 +277,6 @@
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
 
-            <!-- تراك 6 -->
             <div class="track-card" onclick="playTrack('مهرجان الضرب في الميت حرام', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3')">
                 <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
@@ -94,11 +285,9 @@
                 </div>
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
-
         </div>
     </section>
 
-    <!-- مشغل الموسيقى السفلي الثابت -->
     <div class="audio-player-bar" id="playerBar">
         <div class="current-track-info">
             <span id="trackTitle">اختر مهرجاناً للاستماع</span>
@@ -110,6 +299,37 @@
         <audio id="audioElement"></audio>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let audioElement = document.getElementById("audioElement");
+        let trackTitle = document.getElementById("trackTitle");
+        let trackArtist = document.getElementById("trackArtist");
+        let playPauseIcon = document.getElementById("playPauseIcon");
+
+        let isPlaying = false;
+
+        function playTrack(title, artist, audioUrl) {
+            trackTitle.innerText = title;
+            trackArtist.innerText = artist;
+            audioElement.src = audioUrl;
+            
+            audioElement.play();
+            isPlaying = true;
+            playPauseIcon.className = "fa-solid fa-pause";
+        }
+
+        function togglePlay() {
+            if (!audioElement.src) return;
+
+            if (isPlaying) {
+                audioElement.pause();
+                isPlaying = false;
+                playPauseIcon.className = "fa-solid fa-play";
+            } else {
+                audioElement.play();
+                isPlaying = true;
+                playPauseIcon.className = "fa-solid fa-pause";
+            }
+        }
+    </script>
 </body>
 </html>
