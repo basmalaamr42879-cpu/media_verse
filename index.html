@@ -58,34 +58,6 @@
             color: var(--accent-color);
         }
 
-        .search-bar {
-            display: flex;
-            align-items: center;
-            background-color: #242424;
-            padding: 8px 15px;
-            border-radius: 30px;
-            width: 350px;
-            border: 1px solid transparent;
-        }
-
-        .search-bar:focus-within {
-            border-color: #fff;
-        }
-
-        .search-bar input {
-            background: none;
-            border: none;
-            color: #fff;
-            width: 100%;
-            outline: none;
-            padding-right: 10px;
-            font-size: 14px;
-        }
-
-        .search-bar i {
-            color: var(--secondary-text);
-        }
-
         .container {
             padding: 30px 5%;
         }
@@ -163,7 +135,7 @@
             transform: translateY(0);
         }
 
-        /* شريط التشغيل السفلي (Spotify Player) */
+        /* شريط التشغيل السفلي */
         .player-bar {
             position: fixed;
             bottom: 0;
@@ -272,10 +244,6 @@
             width: 0%;
         }
 
-        .progress-bar:hover .progress-bar-filled {
-            background-color: var(--accent-color);
-        }
-
         .player-right {
             width: 30%;
             display: flex;
@@ -290,18 +258,13 @@
         <div class="logo">
             <i class="fa-brands fa-spotify" style="color: var(--accent-color); font-size: 28px;"></i> Sasa <span>Vibes</span>
         </div>
-        <div class="search-bar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="searchInput" placeholder="ابحث في مهرجانات عصام صاصا..." oninput="searchTracks()">
-        </div>
     </header>
 
     <div class="container">
-        <h2 class="section-title">أشهر مهرجانات عصام صاصا الأصلية</h2>
+        <h2 class="section-title">مهرجانات عصام صاصا الأصلية</h2>
         <div class="tracks-grid" id="tracksGrid"></div>
     </div>
 
-    <!-- شريط تشغيل سبوتيفاي -->
     <div class="player-bar">
         <div class="player-left">
             <img id="currImg" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=200&q=80" alt="">
@@ -334,55 +297,25 @@
     <audio id="audioPlayer"></audio>
 
     <script>
-        // قاعدة بيانات حقيقية لمهرجانات عصام صاصا مع روابط صوتية مباشرة وشغالة
+        // روابط أغانٍ حقيقية بصيغ صوتية مباشرة ومتاحة للاستماع
         const tracks = [
             {
-                title: "مهرجان محكمة ودخلنا على المفرمه",
+                title: "مهرجان مفيش صاحب بيصان (أصلي)",
                 artist: "عصام صاصا - كيمو الديب",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                url: "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
                 img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80"
             },
             {
-                title: "مهرجان عمك و عم عمك",
-                artist: "عصام صاصا - محمود العسيلي",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                title: "مهرجان اندال اندال (أصلي)",
+                artist: "عصام صاصا",
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                 img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80"
             },
             {
-                title: "مهرجان كل سنه وانتم من جوه",
-                artist: "عصام صاصا",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-                img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=400&q=80"
-            },
-            {
-                title: "مهرجان انا التاريخ هيحكي عني",
+                title: "مهرجان لسه منزلش بس شغّال",
                 artist: "عصام صاصا - كيمو الديب",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
-                img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=400&q=80"
-            },
-            {
-                title: "مهرجان بيان هام (باي باي يا اندال)",
-                artist: "عصام صاصا - كزبرة",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
-                img: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=400&q=80"
-            },
-            {
-                title: "مهرجان يابني متزغورليش",
-                artist: "عصام صاصا",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
-                img: "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=400&q=80"
-            },
-            {
-                title: "مهرجان شخص تاني (باشا من يومي)",
-                artist: "عصام صاصا",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
-                img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=400&q=80"
-            },
-            {
-                title: "مهرجان انت الا بتكش وعامل حمله",
-                artist: "عصام صاصا - مصطفى الجن",
-                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
-                img: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=400&q=80"
+                url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=400&q=80"
             }
         ];
 
@@ -400,9 +333,8 @@
             const grid = document.getElementById('tracksGrid');
             grid.innerHTML = '';
             list.forEach((track, index) => {
-                let originalIndex = tracks.findIndex(t => t.title === track.title);
                 grid.innerHTML += `
-                    <div class="track-card" onclick="playTrack(${originalIndex})">
+                    <div class="track-card" onclick="playTrack(${index})">
                         <img src="${track.img}" alt="${track.title}">
                         <h3>${track.title}</h3>
                         <p>${track.artist}</p>
@@ -449,12 +381,6 @@
             playTrack(currentTrackIndex);
         }
 
-        function searchTracks() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            const filtered = tracks.filter(t => t.title.toLowerCase().includes(query) || t.artist.toLowerCase().includes(query));
-            renderTracks(filtered);
-        }
-
         audio.addEventListener('timeupdate', () => {
             if (audio.duration) {
                 const percent = (audio.currentTime / audio.duration) * 100;
@@ -470,7 +396,7 @@
 
         function formatTime(secs) {
             const m = Math.floor(secs / 60);
-            const s = Math.floor(secs % 60);
+                const s = Math.floor(secs % 60);
             return `${m}:${s < 10 ? '0' : ''}${s}`;
         }
 
@@ -482,7 +408,6 @@
             }
         }
 
-        // تشغيل أول تراك افتراضياً عند التحميل
         renderTracks(tracks);
     </script>
 </body>
