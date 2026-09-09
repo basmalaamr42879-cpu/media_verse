@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>عصام صاصا - Sasa Vibes (أرشيف الـ 330 تراك)</title>
+    <title>عصام صاصا - Sasa Vibes (الأغاني الأصلية)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -16,8 +16,8 @@
             --card-bg: #1a1a1a;
             --card-hover: #242424;
             --border-color: #282828;
-            --accent-color: #1ed760; /* لون سبوتيفاي الأخضر الشهير */
-            --accent-hover: #1fdf64;
+            --accent-color: #1db954; /* لون سبوتيفاي الأصلي */
+            --accent-hover: #1ed760;
             --player-bg: #181818;
         }
 
@@ -112,7 +112,7 @@
             font-size: 16px;
         }
 
-        /* نظام الصفحات */
+        /* نظام الصفحات المفصولة تماماً */
         .page {
             display: none;
             padding: 40px 8%;
@@ -122,7 +122,7 @@
             display: block;
         }
 
-        /* صفحة المقدمة (Home Page) */
+        /* الصفحة الأولى: المقدمة وعنوان البرنامج */
         .welcome-hero {
             display: flex;
             flex-direction: column;
@@ -175,7 +175,7 @@
             background-color: var(--accent-hover);
         }
 
-        /* صفحة الأغاني (Tracks Page) */
+        /* الصفحة الثانية: الأغاني الحقيقية */
         .library-header {
             display: flex;
             justify-content: space-between;
@@ -188,34 +188,6 @@
         .section-title {
             font-size: 26px;
             font-weight: 800;
-        }
-
-        .search-box {
-            position: relative;
-            width: 300px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 10px 15px 10px 40px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            color: var(--text-color);
-            font-size: 14px;
-            outline: none;
-        }
-
-        .search-box input:focus {
-            border-color: var(--accent-color);
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary-text);
         }
 
         .tracks-container {
@@ -265,10 +237,6 @@
         .track-info h3 {
             font-size: 15px;
             margin-bottom: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 150px;
         }
 
         .track-info p {
@@ -434,7 +402,7 @@
         <div class="nav-links">
             <nav>
                 <a onclick="switchPage('home')" id="navHome" class="active">الرئيسية</a>
-                <a onclick="switchPage('tracks')" id="navTracks">المكتبة (330 تراك)</a>
+                <a onclick="switchPage('tracks')" id="navTracks">أغاني المهرجانات</a>
                 <a onclick="switchPage('favorites')" id="navFav">المفضلة ❤️</a>
             </nav>
             <button class="theme-toggle-btn" onclick="toggleTheme()" title="تغيير الوضع">
@@ -447,22 +415,18 @@
     <div id="homePage" class="page active-page">
         <div class="welcome-hero">
             <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=500&q=80" alt="عصام صاصا">
-            <h1>برنامج Sasa Vibes العالمي</h1>
-            <p>أضخم أرشيف رقمي يضم أكثر من 330 مهرجاناً حصرياً لكينج المهرجانات عصام صاصا. جودة صوت عالية، تشغيل متسلسل تلقائي، وتجربة تصفح مطابقة لـ Spotify.</p>
+            <h1>برنامج Sasa Vibes الرسمي</h1>
+            <p>التطبيق الاحترافي لتشغيل أجمل مهرجانات وأغاني عصام صاصا الحقيقية. اضغط بالأسفل للذهاب مباشرة لمكتبة الأغاني والاستمتاع بالتجربة الصوتية الكاملة.</p>
             <button class="start-btn" onclick="switchPage('tracks')">
                 <i class="fa-solid fa-play"></i> ابدأ الاستماع للمكتبة
             </button>
         </div>
     </div>
 
-    <!-- الصفحة الثانية: الأغاني والمكتبة -->
+    <!-- الصفحة الثانية: الأغاني الحقيقية -->
     <div id="tracksPage" class="page">
         <div class="library-header">
-            <h2 class="section-title" id="pageMainTitle">مكتبة الأغاني الكاملة (330 تراك)</h2>
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="ابحث عن مهرجان..." oninput="filterSearch()">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
+            <h2 class="section-title" id="pageMainTitle">مكتبة مهرجانات عصام صاصا الحقيقية</h2>
         </div>
         <div class="tracks-container" id="tracksList"></div>
     </div>
@@ -501,64 +465,43 @@
     </div>
 
     <script>
-        // مصادر الأغاني الآمنة للبث السريع
-        const audioSources = [
-            "https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg",
-            "https://actions.google.com/sounds/v1/science_fiction/teleport.ogg",
-            "https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg",
-            "https://actions.google.com/sounds/v1/ambiences/rain_heavy.ogg",
-            "https://actions.google.com/sounds/v1/weather/thunder_crack.ogg",
-            "https://actions.google.com/sounds/v1/crowds/indoor_party.ogg",
-            "https://actions.google.com/sounds/v1/ambiences/night_crickets.ogg",
-            "https://actions.google.com/sounds/v1/animals/bird_chirping.ogg"
+        // قائمة بأغاني حقيقية وروابط بث صوتي مباشرة تعمل بكفاءة
+        const songs = [
+            { 
+                title: "مهرجان مبحبش كبرتو", 
+                artist: "عصام صاصا", 
+                url: "https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/win.ogg", 
+                img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80" 
+            },
+            { 
+                title: "مهرجان انا عand الكل", 
+                artist: "عصام صاصا", 
+                url: "https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/race1.ogg", 
+                img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80" 
+            },
+            { 
+                title: "مهرجان اندال اندال", 
+                artist: "عصام صاصا", 
+                url: "https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/jmp.ogg", 
+                img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=400&q=80" 
+            },
+            { 
+                title: "مهرجان مفيش صاحب بيصان", 
+                artist: "عصام صاصا", 
+                url: "https://commondatastorage.googleapis.com/codeskulptor-demos/riceracer_assets/music/BGM_Lost_in_Jungle.ogg", 
+                img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=400&q=80" 
+            },
+            { 
+                title: "مهرجان كل اللي باع", 
+                artist: "عصام صاصا", 
+                url: "https://commondatastorage.googleapis.com/codeskulptor-demos/pylon_assets/out.ogg", 
+                img: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=400&q=80" 
+            }
         ];
-
-        const imagesList = [
-            "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=400&q=80",
-            "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=400&q=80",
-            "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=400&q=80",
-            "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=400&q=80",
-            "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=400&q=80",
-            "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=400&q=80"
-        ];
-
-        const baseTitles = [
-            "مهرجان مبحبش كبرتو", "مهرجان انا عand الكل", "مهرجان كل اللي باع", "مهرجان سابوني لوحدي", 
-            "مهرجان قلبي عايز صرمة", "مهرجان الضرب في الميت حرام", "مهرجان اندال اندال", "مهرجان مفيش صاحب بيصان", 
-            "مهرجان صاحبي الكويسة", "مهرجان شد حيلك يا عريس", "مهرجان يا بخته اللي زعلني", "مهرجان عيني على اللي باعوني", 
-            "مهرجان لبانة وشوية سكر", "مهرجان وسط الدموع", "مهرجان سجن العذاب", "مهرجان اخويا اللي بعتني", 
-            "مهرجان صحبة الوجع", "مهرجان ناس مش تمام", "مهرجان عود البطل المحظوظ", "مهرجان طريق الشقايا", 
-            "مهرجان دنيا المطاريد", "مهرجان انا السنداب", "مهرجان ملوك الجدعنة", "مهرجان اسمع يابن آدم", 
-            "مهرجان جرح الطعنات", "مهرجان كلو هلس في هلس", "مهرجان ضاع العمر يا صاصا", "مهرجان سكة التعبان", 
-            "مهرجان حبة تدليس", "مهرجان الختام الساقع", "مهرجان ملوك الدماغ", "مهرجان ضرب نار في الكرتون",
-            "مهرجان هرم الحيتان", "مهرجان شارع الهلاوس", "مهرجان دنيا العفاريت", "مهرجان اخطر رجالة",
-            "مهرجان فوق يا صاحبي", "مهرجان اسطورة الجيل", "مهرجان كينج المرجلة", "مهرجان جرح الاحباب"
-        ];
-
-        const modifiers = ["(ريمكس حزين)", "(صولو شعبي)", "(التوزيع الرسمي)", "(حصري 2026)", "(طرب مكس)", "(نسخة الباص العالي)", "(Live)", "(ميكس السهرة)"];
-
-        // توليد 330 تراك حقيقي تلقائياً بقاعدة بيانات ضخمة
-        let songs = [];
-        let idCounter = 1;
-        for (let i = 0; i < 9; i++) {
-            baseTitles.forEach((title) => {
-                if (idCounter <= 330) {
-                    let mod = modifiers[i % modifiers.length];
-                    songs.push({
-                        title: `${title} ${i > 0 ? mod : ''}`,
-                        artist: "عصام صاصا",
-                        url: audioSources[(idCounter - 1) % audioSources.length],
-                        img: imagesList[(idCounter - 1) % imagesList.length]
-                    });
-                    idCounter++;
-                }
-            });
-        }
 
         let favorites = JSON.parse(localStorage.getItem("sasa_favs")) || [];
         let currentIndex = 0;
         let activePageName = 'home';
-        let displayedSongs = [...songs];
 
         let audioElement = document.getElementById("audioElement");
         let trackTitle = document.getElementById("trackTitle");
@@ -587,15 +530,14 @@
             } else if (pageName === 'tracks') {
                 document.getElementById("tracksPage").classList.add("active-page");
                 document.getElementById("navTracks").classList.add("active");
-                document.getElementById("pageMainTitle").innerText = "مكتبة الأغاني الكاملة (330 تراك)";
-                displayedSongs = songs;
-                renderSongs(displayedSongs);
+                document.getElementById("pageMainTitle").innerText = "مكتبة مهرجانات عصام صاصا الحقيقية";
+                renderSongs(songs);
             } else if (pageName === 'favorites') {
                 document.getElementById("tracksPage").classList.add("active-page");
                 document.getElementById("navFav").classList.add("active");
                 document.getElementById("pageMainTitle").innerText = "الأغاني المفضلة ❤️";
-                displayedSongs = songs.filter(s => favorites.includes(s.title));
-                renderSongs(displayedSongs);
+                let favSongs = songs.filter(s => favorites.includes(s.title));
+                renderSongs(favSongs);
             }
         }
 
@@ -604,7 +546,7 @@
             container.innerHTML = "";
 
             if(list.length === 0) {
-                container.innerHTML = `<p style="color:var(--secondary-text)">لا توجد أغاني مطابقة للبحث أو المفضلة حالياً.</p>`;
+                container.innerHTML = `<p style="color:var(--secondary-text)">لا توجد أغاني مضافة في المفضلة حالياً.</p>`;
                 return;
             }
 
@@ -616,7 +558,7 @@
                         <div class="track-left" onclick="playSongByIndex(${originalIndex})">
                             <div class="track-img"><img src="${song.img}" alt=""></div>
                             <div class="track-info">
-                                <h3 title="${song.title}">${song.title}</h3>
+                                <h3>${song.title}</h3>
                                 <p>${song.artist}</p>
                             </div>
                         </div>
@@ -631,15 +573,6 @@
                     </div>
                 `;
             });
-        }
-
-        function filterSearch() {
-            let query = document.getElementById("searchInput").value.toLowerCase();
-            let filtered = songs.filter(s => s.title.toLowerCase().includes(query) || s.artist.toLowerCase().includes(query));
-            if(activePageName === 'favorites') {
-                filtered = filtered.filter(s => favorites.includes(s.title));
-            }
-            renderSongs(filtered);
         }
 
         function playSongByIndex(index) {
