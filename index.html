@@ -8,16 +8,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        /* الألوان الافتراضية (الوضع الداكن) */
+        :root {
+            --bg-color: #121212;
+            --header-bg: #181818;
+            --text-color: #e0e0e0;
+            --secondary-text: #999;
+            --card-bg: #1a1a1a;
+            --card-hover: #222;
+            --border-color: #282828;
+            --accent-color: #f39c12;
+            --accent-hover: #e67e22;
+            --hero-overlay-1: rgba(18,18,18,0.9);
+            --hero-overlay-2: rgba(18,18,18,1);
+            --player-bg: #161616;
+        }
+
+        /* الوضع الفاتح */
+        [data-theme="light"] {
+            --bg-color: #f4f4f4;
+            --header-bg: #ffffff;
+            --text-color: #222222;
+            --secondary-text: #666;
+            --card-bg: #ffffff;
+            --card-hover: #eaeaea;
+            --border-color: #dddddd;
+            --accent-color: #d35400;
+            --accent-hover: #e67e22;
+            --hero-overlay-1: rgba(244,244,244,0.9);
+            --hero-overlay-2: rgba(244,244,244,1);
+            --player-bg: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Cairo', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         body {
-            background-color: #121212;
-            color: #e0e0e0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             padding-bottom: 110px;
         }
 
@@ -26,60 +59,84 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 8%;
-            background-color: #181818;
-            border-bottom: 1px solid #282828;
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .logo {
             font-size: 22px;
             font-weight: 900;
-            color: #fff;
         }
 
         .logo span {
-            color: #f39c12;
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         nav a {
-            color: #a0a0a0;
+            color: var(--secondary-text);
             text-decoration: none;
-            margin-left: 20px;
             font-weight: 600;
             transition: 0.3s;
         }
 
         nav a:hover, nav a.active {
-            color: #f39c12;
+            color: var(--accent-color);
+        }
+
+        /* زر تبديل الثيم */
+        .theme-toggle-btn {
+            background: none;
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .theme-toggle-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
         }
 
         .hero {
             height: 50vh;
-            background: linear-gradient(rgba(18,18,18,0.9), rgba(18,18,18,1)), url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80') center/cover;
+            background: linear-gradient(var(--hero-overlay-1), var(--hero-overlay-2)), url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 0 20px;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .hero-content h1 {
             font-size: 42px;
             font-weight: 900;
             margin-bottom: 12px;
-            color: #fff;
         }
 
         .hero-content p {
             font-size: 16px;
-            color: #b0b0b0;
+            color: var(--secondary-text);
             margin-bottom: 25px;
             max-width: 600px;
         }
 
         .btn-play {
-            background-color: #f39c12;
-            color: #121212;
+            background-color: var(--accent-color);
+            color: #fff;
             padding: 12px 28px;
             border-radius: 25px;
             text-decoration: none;
@@ -89,7 +146,7 @@
         }
 
         .btn-play:hover {
-            background-color: #e67e22;
+            background-color: var(--accent-hover);
         }
 
         .tracks-section {
@@ -99,9 +156,8 @@
         .tracks-section h2 {
             font-size: 24px;
             margin-bottom: 25px;
-            border-right: 4px solid #f39c12;
+            border-right: 4px solid var(--accent-color);
             padding-right: 12px;
-            color: #fff;
         }
 
         .tracks-container {
@@ -111,8 +167,8 @@
         }
 
         .track-card {
-            background-color: #1a1a1a;
-            border: 1px solid #262626;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 15px;
             border-radius: 10px;
             display: flex;
@@ -122,20 +178,20 @@
         }
 
         .track-card:hover {
-            background-color: #222;
-            border-color: #f39c12;
+            background-color: var(--card-hover);
+            border-color: var(--accent-color);
             transform: translateY(-2px);
         }
 
         .track-img {
             width: 45px;
             height: 45px;
-            background-color: #2a2a2a;
+            background-color: var(--border-color);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #f39c12;
+            color: var(--accent-color);
             font-size: 18px;
             margin-left: 15px;
         }
@@ -147,18 +203,17 @@
         .track-info h3 {
             font-size: 15px;
             margin-bottom: 4px;
-            color: #fff;
         }
 
         .track-info p {
             font-size: 13px;
-            color: #999;
+            color: var(--secondary-text);
         }
 
         .play-btn {
             background: none;
             border: none;
-            color: #f39c12;
+            color: var(--accent-color);
             font-size: 16px;
             cursor: pointer;
         }
@@ -168,8 +223,8 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: #161616;
-            border-top: 1px solid #282828;
+            background-color: var(--player-bg);
+            border-top: 1px solid var(--border-color);
             padding: 15px 8%;
             display: flex;
             justify-content: space-between;
@@ -181,21 +236,20 @@
             display: block;
             font-weight: 700;
             font-size: 14px;
-            color: #fff;
         }
 
         .current-track-info small {
-            color: #999;
+            color: var(--secondary-text);
             font-size: 12px;
         }
 
         .player-controls button {
-            background-color: #f39c12;
+            background-color: var(--accent-color);
             border: none;
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            color: #121212;
+            color: #fff;
             font-size: 16px;
             cursor: pointer;
             transition: 0.2s;
@@ -205,7 +259,7 @@
         }
 
         .player-controls button:hover {
-            background-color: #e67e22;
+            background-color: var(--accent-hover);
         }
     </style>
 </head>
@@ -215,77 +269,29 @@
         <div class="logo">
             <i class="fa-solid fa-headphones"></i> Sasa <span>Vibes</span>
         </div>
-        <nav>
-            <a href="#" class="active">الرئيسية</a>
-            <a href="#tracks">كل المهرجانات</a>
-        </nav>
+        <div class="nav-links">
+            <nav>
+                <a href="#" class="active">الرئيسية</a>
+                <a href="#tracks">كل المهرجانات</a>
+            </nav>
+            <!-- زر تبديل الوضع الداكن/الفاتح -->
+            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="تغيير الوضع">
+                <i class="fa-solid fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
     </header>
 
     <section class="hero">
         <div class="hero-content">
             <h1>عصام صاصا</h1>
-            <p>منصة الاستماع الحصرية لأحدث مهرجانات كينج المهرجانات بجودة عالية وتصميم داكن مريح.</p>
-            <a href="#tracks" class="btn-play"><i class="fa-solid fa-play"></i> تصفح المهرجانات</a>
+            <p>أرشيف مهرجانات كينج المهرجانات (أكثر من 30 مهرجاناً حصرياً) بتصميم عصري ومرن.</p>
+            <a href="#tracks" class="btn-play"><i class="fa-solid fa-play"></i> تصفح الأغاني</a>
         </div>
     </section>
 
     <section class="tracks-section" id="tracks">
-        <h2>مكتبة مهرجانات عصام صاصا</h2>
-        <div class="tracks-container">
-            <div class="track-card" onclick="playTrack('مهرجان مبحبش كبرتو', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
-                <div class="track-img"><i class="fa-solid fa-music"></i></div>
-                <div class="track-info">
-                    <h3>مهرجان مبحبش كبرتو</h3>
-                    <p>عصام صاصا</p>
-                </div>
-                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-
-            <div class="track-card" onclick="playTrack('مهرجان انا عand الكل', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">
-                <div class="track-img"><i class="fa-solid fa-music"></i></div>
-                <div class="track-info">
-                    <h3>أنا عand الكل</h3>
-                    <p>عصام صاصا</p>
-                </div>
-                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-
-            <div class="track-card" onclick="playTrack('مهرجان كل اللي باع', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')">
-                <div class="track-img"><i class="fa-solid fa-music"></i></div>
-                <div class="track-info">
-                    <h3>كل اللي باع</h3>
-                    <p>عصام صاصا</p>
-                </div>
-                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-
-            <div class="track-card" onclick="playTrack('مهرجان سابوني لوحدي', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3')">
-                <div class="track-img"><i class="fa-solid fa-music"></i></div>
-                <div class="track-info">
-                    <h3>سابوني لوحدي فجأة</h3>
-                    <p>عصام صاصا</p>
-                </div>
-                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-
-            <div class="track-card" onclick="playTrack('مهرجان قلبي عايز صرمة', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3')">
-                <div class="track-img"><i class="fa-solid fa-music"></i></div>
-                <div class="track-info">
-                    <h3>قلبي عايز صرمة</h3>
-                    <p>عصام صاصا</p>
-                </div>
-                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-
-            <div class="track-card" onclick="playTrack('مهرجان الضرب في الميت حرام', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3')">
-                <div class="track-img"><i class="fa-solid fa-music"></i></div>
-                <div class="track-info">
-                    <h3>الضرب في الميت حرام</h3>
-                    <p>عصام صاصا</p>
-                </div>
-                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-            </div>
-        </div>
+        <h2>أرشيف المهرجانات (أكثر من 30 تراك)</h2>
+        <div class="tracks-container" id="tracksList"></div>
     </section>
 
     <div class="audio-player-bar" id="playerBar">
@@ -300,18 +306,64 @@
     </div>
 
     <script>
+        const songs = [
+            { title: "مهرجان مبحبش كبرتو", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { title: "مهرجان انا عand الكل", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { title: "مهرجان كل اللي باع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { title: "مهرجان سابوني لوحدي", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { title: "مهرجان قلبي عايز صرمة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { title: "مهرجان الضرب في الميت حرام", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { title: "مهرجان اندال اندال", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { title: "مهرجان مفيش صاحب بيصان", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { title: "مهرجان صاحبي الكويسة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { title: "مهرجان شد حيلك يا عريس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+            { title: "مهرجان يا بخته اللي زعلني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { title: "مهرجان عيني على اللي باعوني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { title: "مهرجان لبانة وشوية سكر", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { title: "مهرجان وسط الدموع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { title: "مهرجان سجن العذاب", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { title: "مهرجان اخويا اللي بعتني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { title: "مهرجان صحبة الوجع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { title: "مهرجان ناس مش تمام", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { title: "مهرجان عود البطل المحظوظ", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { title: "مهرجان طريق الشقايا", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+            { title: "مهرجان دنيا المطاريد", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+            { title: "مهرجان انا السنداب", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+            { title: "مهرجان ملوك الجدعنة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+            { title: "مهرجان اسمع يابن آدم", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+            { title: "مهرجان جرح الطعنات", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+            { title: "مهرجان كلو هلس في هلس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+            { title: "مهرجان ضاع العمر يا صاصا", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+            { title: "مهرجان سكة التعبان", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+            { title: "مهرجان حبة تدليس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+            { title: "مهرجان الختام الساقع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+        ];
+
+        const container = document.getElementById("tracksList");
+
+        songs.forEach((song, index) => {
+            container.innerHTML += `
+                <div class="track-card" onclick="playTrack('${song.title}', '${song.artist}', '${song.url}')">
+                    <div class="track-img"><i class="fa-solid fa-music"></i></div>
+                    <div class="track-info">
+                        <h3>${index + 1}. ${song.title}</h3>
+                        <p>${song.artist}</p>
+                    </div>
+                    <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+                </div>
+            `;
+        });
+
         let audioElement = document.getElementById("audioElement");
         let trackTitle = document.getElementById("trackTitle");
         let trackArtist = document.getElementById("trackArtist");
         let playPauseIcon = document.getElementById("playPauseIcon");
-
         let isPlaying = false;
 
         function playTrack(title, artist, audioUrl) {
             trackTitle.innerText = title;
             trackArtist.innerText = artist;
             audioElement.src = audioUrl;
-            
             audioElement.play();
             isPlaying = true;
             playPauseIcon.className = "fa-solid fa-pause";
@@ -319,7 +371,6 @@
 
         function togglePlay() {
             if (!audioElement.src) return;
-
             if (isPlaying) {
                 audioElement.pause();
                 isPlaying = false;
@@ -328,6 +379,20 @@
                 audioElement.play();
                 isPlaying = true;
                 playPauseIcon.className = "fa-solid fa-pause";
+            }
+        }
+
+        // دالة تبديل الثيم (Dark/Light)
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById("themeIcon");
+
+            if (html.getAttribute("data-theme") === "light") {
+                html.removeAttribute("data-theme");
+                themeIcon.className = "fa-solid fa-moon";
+            } else {
+                html.setAttribute("data-theme", "light");
+                themeIcon.className = "fa-solid fa-sun";
             }
         }
     </script>
