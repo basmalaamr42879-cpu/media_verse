@@ -5,54 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عصام صاصا - Sasa Vibes</title>
     <link rel="stylesheet" href="style.css">
-    <!-- استيراد خط عربي حديث -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبة الأيقونات FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- شريط التنقل العلوي -->
+    <!-- الهيدر -->
     <header>
         <div class="logo">
-            <i class="fa-solid fa-headphones-simple"></i> صاصا <span>Vibes</span>
+            <i class="fa-solid id-card fa-headphones"></i> Sasa <span>Vibes</span>
         </div>
         <nav>
             <a href="#" class="active">الرئيسية</a>
-            <a href="#tracks">المهرجانات</a>
+            <a href="#tracks">كل المهرجانات</a>
         </nav>
     </header>
 
-    <!-- القسم الرئيسي (Hero Section) -->
+    <!-- قسم الواجهة -->
     <section class="hero">
         <div class="hero-content">
             <h1>عصام صاصا</h1>
-            <p>كينج المهرجانات - استمع لأحدث التواريخ والمهرجانات الحصرية بجودة عالية وتصميم تفاعلي.</p>
-            <a href="#tracks" class="btn-play"><i class="fa-solid fa-play"></i> استمع الآن</a>
+            <p>منصة الاستماع الحصرية لأحدث مهرجانات كينج المهرجانات بجودة عالية وتصميم داكن مريح.</p>
+            <a href="#tracks" class="btn-play"><i class="fa-solid fa-play"></i> تصفح المهرجانات</a>
         </div>
     </section>
 
-    <!-- قائمة الأغاني والمهرجانات -->
+    <!-- قسم المهرجانات الشاملة -->
     <section class="tracks-section" id="tracks">
-        <h2>أحدث المهرجانات (Trending)</h2>
+        <h2>مكتبة مهرجانات عصام صاصا</h2>
         <div class="tracks-container">
+            
             <!-- تراك 1 -->
-            <div class="track-card" onclick="playTrack('مهرجان رقم واحد (تريند)', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
-                <div class="track-img">
-                    <i class="fa-solid fa-music"></i>
-                </div>
+            <div class="track-card" onclick="playTrack('مهرجان مبحبش كبرتو', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">
+                <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
-                    <h3>مهرجان رقم واحد</h3>
+                    <h3>مهرجان مبحبش كبرتو</h3>
                     <p>عصام صاصا</p>
                 </div>
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
 
             <!-- تراك 2 -->
-            <div class="track-card" onclick="playTrack('أنا عand الكل', 'عصام صاصا وكحلاوي', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">
-                <div class="track-img">
-                    <i class="fa-solid fa-music"></i>
-                </div>
+            <div class="track-card" onclick="playTrack('مهرجان انا عand الكل', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">
+                <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
                     <h3>أنا عand الكل</h3>
                     <p>عصام صاصا</p>
@@ -61,23 +56,52 @@
             </div>
 
             <!-- تراك 3 -->
-            <div class="track-card" onclick="playTrack('كل اللي باع', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')">
-                <div class="track-img">
-                    <i class="fa-solid fa-music"></i>
-                </div>
+            <div class="track-card" onclick="playTrack('مهرجان كل اللي باع', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')">
+                <div class="track-img"><i class="fa-solid fa-music"></i></div>
                 <div class="track-info">
                     <h3>كل اللي باع</h3>
                     <p>عصام صاصا</p>
                 </div>
                 <button class="play-btn"><i class="fa-solid fa-play"></i></button>
             </div>
+
+            <!-- تراك 4 -->
+            <div class="track-card" onclick="playTrack('مهرجان سابوني لوحدي', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3')">
+                <div class="track-img"><i class="fa-solid fa-music"></i></div>
+                <div class="track-info">
+                    <h3>سابوني لوحدي فجأة</h3>
+                    <p>عصام صاصا</p>
+                </div>
+                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+            </div>
+
+            <!-- تراك 5 -->
+            <div class="track-card" onclick="playTrack('مهرجان قلبي عايز صرمة', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3')">
+                <div class="track-img"><i class="fa-solid fa-music"></i></div>
+                <div class="track-info">
+                    <h3>قلبي عايز صرمة</h3>
+                    <p>عصام صاصا</p>
+                </div>
+                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+            </div>
+
+            <!-- تراك 6 -->
+            <div class="track-card" onclick="playTrack('مهرجان الضرب في الميت حرام', 'عصام صاصا', 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3')">
+                <div class="track-img"><i class="fa-solid fa-music"></i></div>
+                <div class="track-info">
+                    <h3>الضرب في الميت حرام</h3>
+                    <p>عصام صاصا</p>
+                </div>
+                <button class="play-btn"><i class="fa-solid fa-play"></i></button>
+            </div>
+
         </div>
     </section>
 
-    <!-- مشغل الموسيقى الثابت في الأسفل -->
+    <!-- مشغل الموسيقى السفلي الثابت -->
     <div class="audio-player-bar" id="playerBar">
         <div class="current-track-info">
-            <span id="trackTitle">اختر مهرجاناً للبدء</span>
+            <span id="trackTitle">اختر مهرجاناً للاستماع</span>
             <small id="trackArtist">عصام صاصا</small>
         </div>
         <div class="player-controls">
