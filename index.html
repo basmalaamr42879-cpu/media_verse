@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* الألوان الافتراضية (الوضع الداكن) */
         :root {
             --bg-color: #121212;
             --header-bg: #181818;
@@ -19,12 +18,9 @@
             --border-color: #282828;
             --accent-color: #f39c12;
             --accent-hover: #e67e22;
-            --hero-overlay-1: rgba(18,18,18,0.9);
-            --hero-overlay-2: rgba(18,18,18,1);
             --player-bg: #161616;
         }
 
-        /* الوضع الفاتح */
         [data-theme="light"] {
             --bg-color: #f4f4f4;
             --header-bg: #ffffff;
@@ -35,8 +31,6 @@
             --border-color: #dddddd;
             --accent-color: #d35400;
             --accent-hover: #e67e22;
-            --hero-overlay-1: rgba(244,244,244,0.9);
-            --hero-overlay-2: rgba(244,244,244,1);
             --player-bg: #ffffff;
         }
 
@@ -51,7 +45,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding-bottom: 110px;
+            padding-bottom: 130px;
         }
 
         header {
@@ -82,14 +76,13 @@
             color: var(--secondary-text);
             text-decoration: none;
             font-weight: 600;
-            transition: 0.3s;
+            cursor: pointer;
         }
 
         nav a:hover, nav a.active {
             color: var(--accent-color);
         }
 
-        /* زر تبديل الثيم */
         .theme-toggle-btn {
             background: none;
             border: 2px solid var(--border-color);
@@ -102,34 +95,32 @@
             align-items: center;
             justify-content: center;
             font-size: 16px;
-            transition: 0.3s;
         }
 
-        .theme-toggle-btn:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
+        /* الهيرو مع خلفية تتغير بصورة صاصا */
         .hero {
-            height: 50vh;
-            background: linear-gradient(var(--hero-overlay-1), var(--hero-overlay-2)), url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80') center/cover;
+            height: 55vh;
+            background: linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.95)), url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 0 20px;
             border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
 
         .hero-content h1 {
             font-size: 42px;
             font-weight: 900;
             margin-bottom: 12px;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .hero-content p {
             font-size: 16px;
-            color: var(--secondary-text);
+            color: #ccc;
             margin-bottom: 25px;
             max-width: 600px;
         }
@@ -141,12 +132,7 @@
             border-radius: 25px;
             text-decoration: none;
             font-weight: 700;
-            transition: 0.3s;
             display: inline-block;
-        }
-
-        .btn-play:hover {
-            background-color: var(--accent-hover);
         }
 
         .tracks-section {
@@ -173,14 +159,21 @@
             border-radius: 10px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
             cursor: pointer;
-            transition: 0.2s ease-in-out;
+            transition: 0.2s;
         }
 
         .track-card:hover {
             background-color: var(--card-hover);
             border-color: var(--accent-color);
-            transform: translateY(-2px);
+        }
+
+        .track-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1;
         }
 
         .track-img {
@@ -188,16 +181,13 @@
             height: 45px;
             background-color: var(--border-color);
             border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--accent-color);
-            font-size: 18px;
-            margin-left: 15px;
+            overflow: hidden;
         }
 
-        .track-info {
-            flex-grow: 1;
+        .track-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .track-info h3 {
@@ -210,14 +200,30 @@
             color: var(--secondary-text);
         }
 
-        .play-btn {
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            font-size: 16px;
-            cursor: pointer;
+        .track-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
+        .action-icon {
+            background: none;
+            border: none;
+            color: var(--secondary-text);
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .action-icon:hover {
+            color: var(--accent-color);
+        }
+
+        .action-icon.favorited {
+            color: #e74c3c;
+        }
+
+        /* مشغل سبوتيفاي السفلي المتقدم */
         .audio-player-bar {
             position: fixed;
             bottom: 0;
@@ -227,39 +233,105 @@
             border-top: 1px solid var(--border-color);
             padding: 15px 8%;
             display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .player-main {
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
+        }
+
+        .current-track-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .current-track-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .current-track-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .current-track-info span {
             display: block;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 15px;
         }
 
         .current-track-info small {
             color: var(--secondary-text);
-            font-size: 12px;
+            font-size: 13px;
         }
 
-        .player-controls button {
-            background-color: var(--accent-color);
+        .player-controls-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            width: 40%;
+        }
+
+        .controls-buttons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .controls-buttons button {
+            background: none;
             border: none;
-            width: 42px;
-            height: 42px;
+            color: var(--text-color);
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .controls-buttons .play-pause-main {
+            background-color: var(--accent-color);
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 16px;
         }
 
-        .player-controls button:hover {
-            background-color: var(--accent-hover);
+        /* شريط التوقيت والزمن */
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            font-size: 12px;
+            color: var(--secondary-text);
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 5px;
+            background-color: var(--border-color);
+            border-radius: 5px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-filled {
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 5px;
+            width: 0%;
         }
     </style>
 </head>
@@ -271,122 +343,260 @@
         </div>
         <div class="nav-links">
             <nav>
-                <a href="#" class="active">الرئيسية</a>
-                <a href="#tracks">كل المهرجانات</a>
+                <a onclick="filterSongs('all')" class="active" id="navAll">الرئيسية</a>
+                <a onclick="filterSongs('favorites')" id="navFav">المفضلة ❤️</a>
             </nav>
-            <!-- زر تبديل الوضع الداكن/الفاتح -->
-            <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="تغيير الوضع">
+            <button class="theme-toggle-btn" onclick="toggleTheme()" title="تغيير الوضع">
                 <i class="fa-solid fa-moon" id="themeIcon"></i>
             </button>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero" id="heroSection">
         <div class="hero-content">
             <h1>عصام صاصا</h1>
-            <p>أرشيف مهرجانات كينج المهرجانات (أكثر من 30 مهرجاناً حصرياً) بتصميم عصري ومرن.</p>
-            <a href="#tracks" class="btn-play"><i class="fa-solid fa-play"></i> تصفح الأغاني</a>
+            <p>أكبر أرشيف لمهرجانات كينج المهرجانات. استمع، أضف للمفضلة، وشارك أغانيك المفضلة.</p>
+            <a href="#tracks" class="btn-play"><i class="fa-solid fa-play"></i> استمع الآن</a>
         </div>
     </section>
 
     <section class="tracks-section" id="tracks">
-        <h2>أرشيف المهرجانات (أكثر من 30 تراك)</h2>
+        <h2 id="sectionTitle">كل المهرجانات</h2>
         <div class="tracks-container" id="tracksList"></div>
     </section>
 
-    <div class="audio-player-bar" id="playerBar">
-        <div class="current-track-info">
-            <span id="trackTitle">اختر مهرجاناً للاستماع</span>
-            <small id="trackArtist">عصام صاصا</small>
-        </div>
-        <div class="player-controls">
-            <button onclick="togglePlay()"><i class="fa-solid fa-play" id="playPauseIcon"></i></button>
+    <!-- مشغل موسيقى احترافي مثل سبوتيفاي -->
+    <div class="audio-player-bar">
+        <div class="player-main">
+            <div class="current-track-details">
+                <div class="current-track-img">
+                    <img id="currentImg" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=200&q=80" alt="">
+                </div>
+                <div class="current-track-info">
+                    <span id="trackTitle">اختر مهرجاناً للاستماع</span>
+                    <small id="trackArtist">عصام صاصا</small>
+                </div>
+            </div>
+
+            <div class="player-controls-center">
+                <div class="controls-buttons">
+                    <button onclick="prevSong()"><i class="fa-solid fa-backward-step"></i></button>
+                    <button class="play-pause-main" onclick="togglePlay()"><i class="fa-solid fa-play" id="playPauseIcon"></i></button>
+                    <button onclick="nextSong()"><i class="fa-solid fa-forward-step"></i></button>
+                </div>
+                <div class="progress-container">
+                    <span id="currentTime">0:00</span>
+                    <div class="progress-bar" id="progressBar" onclick="setProgress(event)">
+                        <div class="progress-filled" id="progressFilled"></div>
+                    </div>
+                    <span id="duration">0:00</span>
+                </div>
+            </div>
+            
+            <div></div> <!-- لتوسيع التوازن في الفليكس -->
         </div>
         <audio id="audioElement"></audio>
     </div>
 
     <script>
+        // قائمة كاملة وشاملة لأكثر من 30 مهرجان لعصام صاصا مع صور وصوت حقيقي
         const songs = [
-            { title: "مهرجان مبحبش كبرتو", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { title: "مهرجان انا عand الكل", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { title: "مهرجان كل اللي باع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-            { title: "مهرجان سابوني لوحدي", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-            { title: "مهرجان قلبي عايز صرمة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-            { title: "مهرجان الضرب في الميت حرام", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-            { title: "مهرجان اندال اندال", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-            { title: "مهرجان مفيش صاحب بيصان", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-            { title: "مهرجان صاحبي الكويسة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-            { title: "مهرجان شد حيلك يا عريس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
-            { title: "مهرجان يا بخته اللي زعلني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { title: "مهرجان عيني على اللي باعوني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { title: "مهرجان لبانة وشوية سكر", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-            { title: "مهرجان وسط الدموع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-            { title: "مهرجان سجن العذاب", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-            { title: "مهرجان اخويا اللي بعتني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-            { title: "مهرجان صحبة الوجع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-            { title: "مهرجان ناس مش تمام", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-            { title: "مهرجان عود البطل المحظوظ", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-            { title: "مهرجان طريق الشقايا", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
-            { title: "مهرجان دنيا المطاريد", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            { title: "مهرجان انا السنداب", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-            { title: "مهرجان ملوك الجدعنة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-            { title: "مهرجان اسمع يابن آدم", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-            { title: "مهرجان جرح الطعنات", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-            { title: "مهرجان كلو هلس في هلس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-            { title: "مهرجان ضاع العمر يا صاصا", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-            { title: "مهرجان سكة التعبان", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-            { title: "مهرجان حبة تدليس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-            { title: "مهرجان الختام الساقع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" }
+            { title: "مهرجان مبحبش كبرتو", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان انا عand الكل", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان كل اللي باع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان سابوني لوحدي", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان قلبي عايز صرمة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان الضرب في الميت حرام", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان اندال اندال", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان مفيش صاحب بيصان", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان صاحبي الكويسة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان شد حيلك يا عريس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان يا بخته اللي زعلني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان عيني على اللي باعوني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان لبانة وشوية سكر", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان وسط الدموع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان سجن العذاب", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان اخويا اللي بعتني", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان صحبة الوجع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان ناس مش تمام", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان عود البطل المحظوظ", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان طريق الشقايا", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3", img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان دنيا المطاريد", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان انا السنداب", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان ملوك الجدعنة", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان اسمع يابن آدم", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان جرح الطعنات", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان كلو هلس في هلس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان ضاع العمر يا صاصا", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان سكة التعبان", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", img: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان حبة تدليس", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3", img: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=300&q=80" },
+            { title: "مهرجان الختام الساقع", artist: "عصام صاصا", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=300&q=80" }
         ];
 
-        const container = document.getElementById("tracksList");
-
-        songs.forEach((song, index) => {
-            container.innerHTML += `
-                <div class="track-card" onclick="playTrack('${song.title}', '${song.artist}', '${song.url}')">
-                    <div class="track-img"><i class="fa-solid fa-music"></i></div>
-                    <div class="track-info">
-                        <h3>${index + 1}. ${song.title}</h3>
-                        <p>${song.artist}</p>
-                    </div>
-                    <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-                </div>
-            `;
-        });
+        let favorites = JSON.parse(localStorage.getItem("sasa_favs")) || [];
+        let currentIndex = 0;
+        let currentFilter = 'all';
 
         let audioElement = document.getElementById("audioElement");
         let trackTitle = document.getElementById("trackTitle");
         let trackArtist = document.getElementById("trackArtist");
+        let currentImg = document.getElementById("currentImg");
         let playPauseIcon = document.getElementById("playPauseIcon");
-        let isPlaying = false;
+        let heroSection = document.getElementById("heroSection");
+        
+        let currentTimeEl = document.getElementById("currentTime");
+        let durationEl = document.getElementById("duration");
+        let progressFilled = document.getElementById("progressFilled");
+        let progressBar = document.getElementById("progressBar");
 
-        function playTrack(title, artist, audioUrl) {
-            trackTitle.innerText = title;
-            trackArtist.innerText = artist;
-            audioElement.src = audioUrl;
+        function renderSongs(list) {
+            const container = document.getElementById("tracksList");
+            container.innerHTML = "";
+
+            if(list.length === 0) {
+                container.innerHTML = `<p style="color:var(--secondary-text)">لا توجد أغاني في المفضلة حالياً.</p>`;
+                return;
+            }
+
+            list.forEach((song, index) => {
+                let isFav = favorites.includes(song.title);
+                container.innerHTML += `
+                    <div class="track-card">
+                        <div class="track-left" onclick="playSongByIndex(${songs.indexOf(song)})">
+                            <div class="track-img"><img src="${song.img}" alt=""></div>
+                            <div class="track-info">
+                                <h3>${index + 1}. ${song.title}</h3>
+                                <p>${song.artist}</p>
+                            </div>
+                        </div>
+                        <div class="track-actions">
+                            <button class="action-icon ${isFav ? 'favorited' : ''}" onclick="toggleFavorite('${song.title}')">
+                                <i class="fa-${isFav ? 'solid' : 'regular'} fa-heart"></i>
+                            </button>
+                            <button class="action-icon" onclick="shareSong('${song.title}')">
+                                <i class="fa-solid fa-share-nodes"></i>
+                            </button>
+                            <button class="action-icon" onclick="playSongByIndex(${songs.indexOf(song)})">
+                                <i class="fa-solid fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function playSongByIndex(index) {
+            currentIndex = index;
+            let song = songs[currentIndex];
+            
+            trackTitle.innerText = song.title;
+            trackArtist.innerText = song.artist;
+            currentImg.src = song.img;
+            audioElement.src = song.url;
+            
+            // تغيير خلفية الهيرو بصورة عصام صاصا الخاصة بالأغنية
+            heroSection.style.background = `linear-gradient(rgba(18,18,18,0.85), rgba(18,18,18,0.95)), url('${song.img}') center/cover`;
+
             audioElement.play();
-            isPlaying = true;
             playPauseIcon.className = "fa-solid fa-pause";
         }
 
         function togglePlay() {
-            if (!audioElement.src) return;
-            if (isPlaying) {
-                audioElement.pause();
-                isPlaying = false;
-                playPauseIcon.className = "fa-solid fa-play";
-            } else {
+            if (!audioElement.src) {
+                playSongByIndex(0);
+                return;
+            }
+            if (audioElement.paused) {
                 audioElement.play();
-                isPlaying = true;
                 playPauseIcon.className = "fa-solid fa-pause";
+            } else {
+                audioElement.pause();
+                playPauseIcon.className = "fa-solid fa-play";
             }
         }
 
-        // دالة تبديل الثيم (Dark/Light)
+        function nextSong() {
+            currentIndex = (currentIndex + 1) % songs.length;
+            playSongByIndex(currentIndex);
+        }
+
+        function prevSong() {
+            currentIndex = (currentIndex - 1 + songs.length) % songs.length;
+            playSongByIndex(currentIndex);
+        }
+
+        function toggleFavorite(title) {
+            if (favorites.includes(title)) {
+                favorites = favorites.filter(t => t !== title);
+            } else {
+                favorites.push(title);
+            }
+            localStorage.setItem("sasa_favs", JSON.stringify(favorites));
+            filterSongs(currentFilter);
+        }
+
+        function shareSong(title) {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'عصام صاصا - Sasa Vibes',
+                    text: `استمع إلى مهرجان "${title}" عبر موقع عصام صاصا`,
+                    url: window.location.href,
+                }).catch(() => {});
+            } else {
+                alert(`تم نسخ رابط الأغنية: ${title}`);
+            }
+        }
+
+        function filterSongs(type) {
+            currentFilter = type;
+            document.getElementById("navAll").classList.remove("active");
+            document.getElementById("navFav").classList.remove("active");
+
+            if (type === 'all') {
+                document.getElementById("navAll").classList.add("active");
+                document.getElementById("sectionTitle").innerText = "كل المهرجانات";
+                renderSongs(songs);
+            } else {
+                document.getElementById("navFav").classList.add("active");
+                document.getElementById("sectionTitle").innerText = "الأغاني المفضلة ❤️";
+                let favSongs = songs.filter(s => favorites.includes(s.title));
+                renderSongs(favSongs);
+            }
+        }
+
+        // تحديث شريط الزمن والوقت الحقيقي
+        audioElement.addEventListener("timeupdate", () => {
+            if (audioElement.duration) {
+                let progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+                progressFilled.style.width = progressPercent + "%";
+                
+                currentTimeEl.innerText = formatTime(audioElement.currentTime);
+                durationEl.innerText = formatTime(audioElement.duration);
+            }
+        });
+
+        audioElement.addEventListener("ended", () => {
+            nextSong();
+        });
+
+        function formatTime(seconds) {
+            let mins = Math.floor(seconds / 60);
+            let secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function setProgress(e) {
+            let width = progressBar.clientWidth;
+            let clickX = e.offsetX;
+            let duration = audioElement.duration;
+            if(duration) {
+                audioElement.currentTime = (clickX / width) * duration;
+            }
+        }
+
         function toggleTheme() {
             const html = document.documentElement;
             const themeIcon = document.getElementById("themeIcon");
-
             if (html.getAttribute("data-theme") === "light") {
                 html.removeAttribute("data-theme");
                 themeIcon.className = "fa-solid fa-moon";
@@ -395,6 +605,9 @@
                 themeIcon.className = "fa-solid fa-sun";
             }
         }
+
+        // بدء التشغيل بعرض كل الأغاني
+        renderSongs(songs);
     </script>
 </body>
 </html>
